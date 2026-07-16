@@ -4,10 +4,6 @@ import java.util.Scanner;
 
 
 public class Phonebook {    
-    public static void main(String[] args) {
-    Phonebook ui = new Phonebook();
-    ui.run();
-}
 
     String name, surname, tel;
     Scanner input = new Scanner(System.in);
@@ -65,6 +61,7 @@ public class Phonebook {
         System.out.println("3. แทรกข้อมูล");
         System.out.println("4. แก้ไขข้อมูล");
         System.out.println("5. ดูรายชื่อ");
+        System.out.println("6 เรียงข้อมูล");
         System.out.println("0. ออกจากโปรแกรม");
         System.out.print("เลือกเมนู: ");
     }
@@ -92,7 +89,7 @@ public class Phonebook {
         System.out.println("กรอกช่องที่ต้องการลบ");
         int index_delete = input.nextInt();
 
-        l.delete(index_delete);
+        l.delete(index_delete-1);
 
     }
 
@@ -112,8 +109,8 @@ public class Phonebook {
         System.out.print("กรอกเบอร์โทร: ");
         tel = input.nextLine();
 
-        index_insert -= 1;
-        l.insert(index_insert, new Record(name, surname, tel));
+
+        l.insert(index_insert-=1, new Record(name, surname, tel));
     }
 
     public void edit() {
@@ -131,8 +128,9 @@ public class Phonebook {
         System.out.print("กรอกเบอร์โทร: ");
         tel = input.nextLine();
 
+
         index_edit -= 1;
-        l.insert(index_edit, new Record(name, surname, tel));
+        l.edits(index_edit, new Record(name, surname, tel));
         
 
     }
@@ -144,7 +142,9 @@ public class Phonebook {
 
 
     public void ShowAll_Data(){
-        l.showall();
+        System.out.println("ต้องการเรียงข้อมูลไหมตอบ yes(y) or no(n) เท่านั้น");
+        String sort = input.nextLine();
+        l.showall(sort);
     }
 }
 

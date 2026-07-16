@@ -9,13 +9,13 @@ public class Record {
 
     
    Record(String name, String surname, String number) {
-      set_name(name);
-      set_surname(surname);
-      set_tel(number);
+      setName(name);
+      setSurname(surname);
+      setTel(number);
 
    }
 
-   public void set_name(String name) {
+   public void setName(String name) {
       if (name != null && name.isEmpty()) {
          firstname = "unknow";
       } else {
@@ -24,7 +24,7 @@ public class Record {
       }
    }
 
-   public void set_surname(String surname) {
+   public void setSurname(String surname) {
       if (surname != null && surname.isEmpty()) {
          lastname = "unknow";
       } else {
@@ -33,7 +33,7 @@ public class Record {
       }
    }
 
-   public void set_tel(String number) {
+   public void setTel(String number) {
       if (number != null && number.isEmpty()) {
          tel = "unknow";
       } else {
