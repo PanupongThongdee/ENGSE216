@@ -3,7 +3,7 @@ package phonebook;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Phonebook {
+public class phonebook {
 
     String name, surname, tel;
     Scanner input = new Scanner(System.in);
@@ -26,9 +26,9 @@ public class Phonebook {
                     isValid = true;
                 } catch (InputMismatchException e) {
                     System.out.println("===============================================");
-                    System.out.println("❌ ผิดพลาด! คุณกรอกตัวอักษรมา กรุณากรอกเฉพาะตัวเลขเมนูเท่านั้น");
-                    input.next(); // เคลียร์เศษข้อความผิดพลาดออกจากหน่วยความจำของ Scanner
-                    menu(); // แสดงเมนูหลักใหม่อีกครั้ง
+                    System.out.println("คุณกรอกตัวอักษรมา กรุณากรอกเฉพาะตัวเลขเมนูเท่านั้น");
+                    input.next();
+                    menu();
                 }
             }
             switch (choice) {
@@ -51,7 +51,7 @@ public class Phonebook {
                     break;
                 case 5:
 
-                    ShowAll_Data();
+                    showAll_Data();
                     break;
                 case 0:
 
@@ -64,7 +64,6 @@ public class Phonebook {
 
         }
     }
-    
 
     public void menu() {
         System.out.println("==== เมนู ====");
@@ -90,15 +89,10 @@ public class Phonebook {
         System.out.print("กรอกเบอร์โทร: ");
         tel = input.nextLine();
 
-        if (name.isBlank() || surname.isBlank() || tel.isBlank()) {
-            System.out.println("❌ ผิดพลาด! กรุณากรอกข้อมูลให้ครบทุกช่อง (ห้ามเว้นว่าง)\n");
-            return;
-        } 
 
         l.add(new Record(name, surname, tel));
         System.out.println("เพิ่มข้อมูลเรียบร้อยแล้ว\n");
     }
-    
 
     public void delete() {
         System.out.println("คุณเลือก ลบข้อมูล");
@@ -131,16 +125,12 @@ public class Phonebook {
             System.out.print("กรอกเบอร์โทร: ");
             tel = input.nextLine();
 
-            if (name.isBlank() || surname.isBlank() || tel.isBlank()) {
-                System.out.println("❌ ผิดพลาด! ข้อมูลที่แทรกต้องไม่มีช่องว่าง\n");
-                return;
-            }
+
 
             l.insert(index_insert - 1, new Record(name, surname, tel));
-            System.out.println("📌 แทรกข้อมูลเรียบร้อย\n");
-        } catch (InputMismatchException e) { // ⭐ [แก้ไข] เปลี่ยนจาก Error ที่คอมไพล์ไม่ผ่าน มาเป็น Exception
-                                             // ดักจับคีย์บอร์ดที่ถูกต้อง
-            System.out.println("❌ ผิดพลาด! ช่องที่ต้องการแทรกต้องกรอกเป็นตัวเลขเท่านั้น\n");
+            System.out.println("แทรกข้อมูลเรียบร้อย\n");
+        } catch (InputMismatchException e) {
+            System.out.println("ผิดพลาด! ช่องที่ต้องการแทรกต้องกรอกเป็นตัวเลขเท่านั้น\n");
             input.next();
         }
     }
@@ -161,15 +151,11 @@ public class Phonebook {
             System.out.print("กรอกเบอร์โทร: ");
             tel = input.nextLine();
 
-            if (name.isBlank() || surname.isBlank() || tel.isBlank()) {
-                System.out.println("❌ ผิดพลาด! ข้อมูลแก้ไขต้องไม่มีช่องว่าง\n");
-                return;
-            }
 
             l.edits(index_edit - 1, new Record(name, surname, tel));
-            System.out.println("✏️ แก้ไขข้อมูลเรียบร้อย\n");
-        } catch (InputMismatchException e) { // ⭐ [แก้ไข] ใช้ดักจับการพิมพ์ตัวเลขผิดใน edit
-            System.out.println("❌ ผิดพลาด! ช่องที่ต้องการแก้ไขต้องกรอกเป็นตัวเลขเท่านั้น\n");
+            System.out.println("แก้ไขข้อมูลเรียบร้อย\n");
+        } catch (InputMismatchException e) {
+            System.out.println("ช่องที่ต้องการแก้ไขต้องกรอกเป็นตัวเลขเท่านั้น\n");
             input.next();
         }
 
@@ -182,12 +168,10 @@ public class Phonebook {
 
     }
 
-    public void ShowAll_Data() {
+    public void showAll_Data() {
         System.out.println("ต้องการเรียงข้อมูลไหมตอบ yes(y) or no(n) เท่านั้น");
         System.out.print("คำตอบ: ");
         String sort = input.nextLine();
         l.showall(sort);
     }
 }
-
-

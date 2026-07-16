@@ -2,7 +2,7 @@ package phonebook;
 
 public class main {
     public static void main(String[] args) {
-        Phonebook ui = new Phonebook();
+        phonebook ui = new phonebook();
         ui.run();
     }
 }
