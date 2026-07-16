@@ -1,22 +1,36 @@
 package phonebook;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
-public class Phonebook {    
+public class Phonebook {
 
     String name, surname, tel;
     Scanner input = new Scanner(System.in);
     boolean running = true;
     list l = new list();
+    boolean isValid = false;
+    int choice;
 
     public void run() {
-        
+
         while (running) {
             menu();
-            int choice = input.nextInt();
-            input.nextLine();
+            isValid = false;
 
+            while (!isValid) {
+
+                try {
+                    choice = input.nextInt();
+                    input.nextLine();
+                    isValid = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("===============================================");
+                    System.out.println("❌ ผิดพลาด! คุณกรอกตัวอักษรมา กรุณากรอกเฉพาะตัวเลขเมนูเท่านั้น");
+                    input.next(); // เคลียร์เศษข้อความผิดพลาดออกจากหน่วยความจำของ Scanner
+                    menu(); // แสดงเมนูหลักใหม่อีกครั้ง
+                }
+            }
             switch (choice) {
                 case 1:
 
@@ -47,12 +61,10 @@ public class Phonebook {
 
                     System.out.println("เมนูไม่ถูกต้อง");
             }
-            
+
         }
-
-        
-
     }
+    
 
     public void menu() {
         System.out.println("==== เมนู ====");
@@ -61,7 +73,6 @@ public class Phonebook {
         System.out.println("3. แทรกข้อมูล");
         System.out.println("4. แก้ไขข้อมูล");
         System.out.println("5. ดูรายชื่อ");
-        System.out.println("6 เรียงข้อมูล");
         System.out.println("0. ออกจากโปรแกรม");
         System.out.print("เลือกเมนู: ");
     }
@@ -69,8 +80,8 @@ public class Phonebook {
     public void add() {
 
         System.out.println("คุณเลือก เพิ่มข้อมูล");
-
         System.out.print("กรอกชื่อ: ");
+
         name = input.nextLine();
 
         System.out.print("กรอกนามสกุล: ");
@@ -79,70 +90,101 @@ public class Phonebook {
         System.out.print("กรอกเบอร์โทร: ");
         tel = input.nextLine();
 
+        if (name.isBlank() || surname.isBlank() || tel.isBlank()) {
+            System.out.println("❌ ผิดพลาด! กรุณากรอกข้อมูลให้ครบทุกช่อง (ห้ามเว้นว่าง)\n");
+            return;
+        } 
+
         l.add(new Record(name, surname, tel));
-
-
+        System.out.println("เพิ่มข้อมูลเรียบร้อยแล้ว\n");
     }
+    
 
     public void delete() {
         System.out.println("คุณเลือก ลบข้อมูล");
         System.out.println("กรอกช่องที่ต้องการลบ");
-        int index_delete = input.nextInt();
+        try {
+            int index_delete = input.nextInt();
+            input.nextLine();
 
-        l.delete(index_delete-1);
-
+            l.delete(index_delete - 1);
+        } catch (InputMismatchException e) {
+            System.out.println("ช่องที่ต้องการลบต้องกรอกเป็นตัวเลขเท่านั้น\n");
+            input.next();
+        }
     }
 
     public void insert() {
         System.out.println("คุณเลือก แทรกข้อมูล");
-        System.out.println("กรอกช่องที่ต้องการแทรก");
-        int index_insert = input.nextInt();
-        input.nextLine();
+        System.out.print("กรอกช่องที่ต้องการแทรก :");
+        try {
+            int index_insert = input.nextInt();
+            input.nextLine();
 
-        System.out.println("กรอกข้อมูลที่ต้องการแทรก");
-        System.out.print("กรอกชื่อ: ");
-        name = input.nextLine();
+            System.out.println("กรอกข้อมูลที่ต้องการแทรก");
+            System.out.print("กรอกชื่อ: ");
+            name = input.nextLine();
 
-        System.out.print("กรอกนามสกุล: ");
-        surname = input.nextLine();
+            System.out.print("กรอกนามสกุล: ");
+            surname = input.nextLine();
 
-        System.out.print("กรอกเบอร์โทร: ");
-        tel = input.nextLine();
+            System.out.print("กรอกเบอร์โทร: ");
+            tel = input.nextLine();
 
+            if (name.isBlank() || surname.isBlank() || tel.isBlank()) {
+                System.out.println("❌ ผิดพลาด! ข้อมูลที่แทรกต้องไม่มีช่องว่าง\n");
+                return;
+            }
 
-        l.insert(index_insert-=1, new Record(name, surname, tel));
+            l.insert(index_insert - 1, new Record(name, surname, tel));
+            System.out.println("📌 แทรกข้อมูลเรียบร้อย\n");
+        } catch (InputMismatchException e) { // ⭐ [แก้ไข] เปลี่ยนจาก Error ที่คอมไพล์ไม่ผ่าน มาเป็น Exception
+                                             // ดักจับคีย์บอร์ดที่ถูกต้อง
+            System.out.println("❌ ผิดพลาด! ช่องที่ต้องการแทรกต้องกรอกเป็นตัวเลขเท่านั้น\n");
+            input.next();
+        }
     }
 
     public void edit() {
         System.out.println("คุณเลือก แก้ไขข้อมูล");
-        System.out.println("กรอกช่องที่ต้องการแก้ไข");
-        int index_edit = input.nextInt();
-        input.nextLine();
-        System.out.println("แก้ไข");
-           System.out.print("กรอกชื่อ: ");
-        name = input.nextLine();
+        System.out.print("กรอกช่องที่ต้องการแก้ไข :");
+        try {
+            int index_edit = input.nextInt();
+            input.nextLine();
+            System.out.println("แก้ไข");
+            System.out.print("กรอกชื่อ: ");
+            name = input.nextLine();
 
-        System.out.print("กรอกนามสกุล: ");
-        surname = input.nextLine();
+            System.out.print("กรอกนามสกุล: ");
+            surname = input.nextLine();
 
-        System.out.print("กรอกเบอร์โทร: ");
-        tel = input.nextLine();
+            System.out.print("กรอกเบอร์โทร: ");
+            tel = input.nextLine();
 
+            if (name.isBlank() || surname.isBlank() || tel.isBlank()) {
+                System.out.println("❌ ผิดพลาด! ข้อมูลแก้ไขต้องไม่มีช่องว่าง\n");
+                return;
+            }
 
-        index_edit -= 1;
-        l.edits(index_edit, new Record(name, surname, tel));
-        
+            l.edits(index_edit - 1, new Record(name, surname, tel));
+            System.out.println("✏️ แก้ไขข้อมูลเรียบร้อย\n");
+        } catch (InputMismatchException e) { // ⭐ [แก้ไข] ใช้ดักจับการพิมพ์ตัวเลขผิดใน edit
+            System.out.println("❌ ผิดพลาด! ช่องที่ต้องการแก้ไขต้องกรอกเป็นตัวเลขเท่านั้น\n");
+            input.next();
+        }
 
     }
 
     public void exit() {
+
         System.out.println("ออกจากโปรแกรม");
         running = false;
+
     }
 
-
-    public void ShowAll_Data(){
+    public void ShowAll_Data() {
         System.out.println("ต้องการเรียงข้อมูลไหมตอบ yes(y) or no(n) เท่านั้น");
+        System.out.print("คำตอบ: ");
         String sort = input.nextLine();
         l.showall(sort);
     }

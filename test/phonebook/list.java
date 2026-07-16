@@ -87,34 +87,26 @@ public class list {
 
     void showall(String sort) {
 
-        
+        if (sort != null && (sort.equalsIgnoreCase("y") || sort.equalsIgnoreCase("yes"))) {
+            bubble_sort();
+        } else if (sort != null && (sort.equalsIgnoreCase("n") || sort.equalsIgnoreCase("no"))) {
+
+        } else {
+            System.out.println("ใส่ข้อมูลไม่ถูกต้อง");
+        }
+
+        System.out.printf("%-5s %-15s %-15s %-15s\n", "| No.", "| Name ", "| Surname", "| Tel.         |");
+
         for (int i = 0; i < count; i++) {
-
             if (profile[i] != null) {
-
-              if (sort != null && (sort.equalsIgnoreCase("y") || sort.equalsIgnoreCase("yes"))) {
-                     bubble_sort(); 
-                 }
-            else{
-                System.out.println("กรุณากรอกแค่ yes(y) กับ no(n) เท่านั้น");
-                return;
+                
             }
-
-            System.out.printf("%-5s %-15s %-15s %-15s\n", "| No.", "| Name ", "| Surname", "| Tel.         |");
-                    
-}
-                    System.out.printf("  %-5s %-15s %-15s %-15s\n", 
-                    i + 1, 
+            System.out.printf("  %-5s %-15s %-15s %-15s\n",
+                    i + 1,
                     this.profile[i].getFirstname(),
                     this.profile[i].getLastname(),
                     this.profile[i].getTel());
-                }
-
-                
-                  
-                
-            }
         }
 
-
-
+    }
+}
