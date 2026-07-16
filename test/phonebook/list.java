@@ -5,6 +5,8 @@ public class list {
     private int count = 0;
     private Record temp;
 
+
+
     public void add(Record data) {
         if (!isfull()) {
             this.profile[count] = data;
@@ -26,6 +28,9 @@ public class list {
 
             }
             count--;
+        }
+        else{
+            System.out.println("Index is empty");
         }
     }
 
