@@ -1,4 +1,4 @@
-package Bubble_sort;
+package Study.Bubble_sort;
 
 public class process {
     private String [] firstname = new String[10];

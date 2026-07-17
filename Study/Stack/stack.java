@@ -1,4 +1,4 @@
-package Stack;
+package Study.Stack;
 
 public class stack {
     private int arr[];

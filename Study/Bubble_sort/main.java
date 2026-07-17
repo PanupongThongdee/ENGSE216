@@ -1,4 +1,4 @@
-package Bubble_sort;
+package Study.Bubble_sort;
 
 public class main{
     public static void main(String[] srg){
