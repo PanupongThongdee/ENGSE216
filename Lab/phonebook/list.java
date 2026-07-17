@@ -1,4 +1,4 @@
-package phonebook;
+package Lab.phonebook;
 
 public class list {
     private Record profile[] = new Record[5];
@@ -33,6 +33,7 @@ public class list {
             System.out.println("Index is empty");
         }
     }
+
 
     public void edits(int k, Record profile) {
 

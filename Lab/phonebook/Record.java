@@ -1,4 +1,4 @@
-package phonebook;
+package Lab.phonebook;
 
 public class Record {
 
