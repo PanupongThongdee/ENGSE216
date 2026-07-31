@@ -1,5 +1,6 @@
+package Lab.bank;
 
-public class queue {
+public class Queue {
 
     int q[] = new int[5];
     int f, r, count;
@@ -10,9 +11,9 @@ public class queue {
             r = (r + 1) % q.length;
             count++;
         } else {
-            System.out.println("Queue is full");
+            System.out.println("Queues is full");
         }
-
+        
     }
 
     int dequeue() {
@@ -21,9 +22,11 @@ public class queue {
             temp = q[f];
             f = (f + 1) % q.length;
             count--;
+           
         } else { 
             System.out.println("Queue is empty");
         }
+        
         return temp;
     }
 
@@ -43,8 +46,12 @@ public class queue {
         int index;
         index = f;
         for (int i = 1; i <= count; i++) {
-            System.out.print(q[index] + "  ");
+            System.out.print(q[index] + " ");
             index = (index + 1) % q.length;
         }
+        
     }
+    
+
 }
+

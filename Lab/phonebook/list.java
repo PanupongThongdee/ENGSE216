@@ -1,19 +1,20 @@
 package Lab.phonebook;
 
 public class list {
-    private Record profile[] = new Record[5];
+    private Record profile[] = new Record[99];
     private int count = 0;
-    private Record temp;
-
-
 
     public void add(Record data) {
-        if (!isfull()) {
-            this.profile[count] = data;
-            count++;
-        } else {
-            System.out.println("your phonebook is full");
+        if (isfull()) {
+            System.out.println("Phonebook is full!");
+
         }
+
+        this.profile[count] = data;
+        count++;
+
+        System.out.println("เพิ่มข้อมูลเรียบร้อยแล้ว\n");
+
     }
 
     void delete(int k) {
@@ -28,12 +29,11 @@ public class list {
 
             }
             count--;
-        }
-        else{
+
+        } else {
             System.out.println("Index is empty");
         }
     }
-
 
     public void edits(int k, Record profile) {
 
@@ -47,16 +47,23 @@ public class list {
 
     public void insert(int k, Record profile) {
 
-        if (!isfull()) {
+        if (isfull()) {
+            System.out.println("index is full");
+        }
 
+        if (k <= count && k >= 0) {
             for (int i = count; i > k; i--) {
-
                 this.profile[i] = this.profile[i - 1];
-
             }
+
             this.profile[k] = profile;
             count++;
+            System.out.println("แทรกข้อมูลเรียบร้อย\n");
+
+        } else {
+            System.out.println("กรุณากรอกตัวเลขตามตาราง (ตำแหน่งต้องอยู่ระหว่าง 1 ถึง " + (count + 1));
         }
+
     }
 
     boolean isfull() {
@@ -105,7 +112,7 @@ public class list {
 
         for (int i = 0; i < count; i++) {
             if (profile[i] != null) {
-                
+
             }
             System.out.printf("  %-5s %-15s %-15s %-15s\n",
                     i + 1,
@@ -115,4 +122,34 @@ public class list {
         }
 
     }
+
+    public boolean search(String tel) {
+        Boolean found = false;
+
+        for (int i = 0; i < count; i++) {
+            if (this.profile[i].getTel().equals(tel)) {
+                found = true;
+            }
+
+        }
+        return found;
+    }
+
+    void showData() {
+
+        System.out.printf("%-5s %-15s %-15s %-15s\n", "| No.", "| Name ", "| Surname", "| Tel.         |");
+
+        for (int i = 0; i < count; i++) {
+            if (profile[i] != null) {
+
+            }
+            System.out.printf("  %-5s %-15s %-15s %-15s\n",
+                    i + 1,
+                    this.profile[i].getFirstname(),
+                    this.profile[i].getLastname(),
+                    this.profile[i].getTel());
+        }
+
+    }
+
 }

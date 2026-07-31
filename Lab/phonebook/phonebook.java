@@ -44,6 +44,7 @@ public class phonebook {
                 case 3:
 
                     insert();// แทรกข้อมูล
+
                     break;
                 case 4:
 
@@ -87,11 +88,14 @@ public class phonebook {
         surname = input.nextLine();
 
         System.out.print("กรอกเบอร์โทร: ");
-        tel = input.nextLine();
+        tel = checktail(input);
 
+        if (l.search(tel) != false) {
+            return;
+        }
 
         l.add(new Record(name, surname, tel));
-        System.out.println("เพิ่มข้อมูลเรียบร้อยแล้ว\n");
+
     }
 
     public void delete() {
@@ -109,29 +113,34 @@ public class phonebook {
     }
 
     public void insert() {
-        System.out.println("คุณเลือก แทรกข้อมูล");
-        System.out.print("กรอกช่องที่ต้องการแทรก :");
+        System.out.println("\nคุณเลือก แทรกข้อมูล");
+        l.showData();
+
+        System.out.print("กรอกลำดับที่ต้องการแทรก: ");
         try {
             int index_insert = input.nextInt();
-            input.nextLine();
+            input.nextLine(); 
 
-            System.out.println("กรอกข้อมูลที่ต้องการแทรก");
+            // รับข้อมูลโปรไฟล์
             System.out.print("กรอกชื่อ: ");
-            name = input.nextLine();
+            String name = input.nextLine();
 
             System.out.print("กรอกนามสกุล: ");
-            surname = input.nextLine();
+            String surname = input.nextLine();
 
             System.out.print("กรอกเบอร์โทร: ");
-            tel = input.nextLine();
 
+            tel = checktail(input);
 
+            if (l.search(tel) != false) {
+                return;
+            }
 
             l.insert(index_insert - 1, new Record(name, surname, tel));
-            System.out.println("แทรกข้อมูลเรียบร้อย\n");
+
         } catch (InputMismatchException e) {
             System.out.println("ผิดพลาด! ช่องที่ต้องการแทรกต้องกรอกเป็นตัวเลขเท่านั้น\n");
-            input.next();
+            input.nextLine(); // ล้างค่าที่ไม่ใช่ตัวเลขออก
         }
     }
 
@@ -149,14 +158,18 @@ public class phonebook {
             surname = input.nextLine();
 
             System.out.print("กรอกเบอร์โทร: ");
-            tel = input.nextLine();
+            tel = checktail(input);
 
+            if (l.search(tel) != false) {
+                return;
+            }
 
             l.edits(index_edit - 1, new Record(name, surname, tel));
             System.out.println("แก้ไขข้อมูลเรียบร้อย\n");
+
         } catch (InputMismatchException e) {
             System.out.println("ช่องที่ต้องการแก้ไขต้องกรอกเป็นตัวเลขเท่านั้น\n");
-            input.next();
+            input.nextLine();
         }
 
     }
@@ -173,5 +186,16 @@ public class phonebook {
         System.out.print("คำตอบ: ");
         String sort = input.nextLine();
         l.showall(sort);
+
     }
+
+    public String checktail(Scanner input) {
+        String tel = input.nextLine();
+        if (l.search(tel) != false) {
+            System.out.println("มีหมายเลขเบอร์โทรซ้ำกัน");
+
+        }
+        return this.tel = tel;
+    }
+
 }
