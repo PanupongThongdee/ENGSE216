@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting Algorithms Performance (Log Scale)</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.4rem;
+      background: linear-gradient(90deg, #38bdf8, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .card h2 {
+      font-size: 1.15rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+    .chart-wrap {
+      position: relative;
+      height: 420px;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    th, td {
+      padding: 0.65rem 0.7rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #0f172a;
+      color: var(--accent);
+      text-align: center;
+      font-weight: 600;
+    }
+    td:first-child, th:first-child {
+      text-align: left;
+      font-weight: 600;
+    }
+    tr:hover td {
+      background: rgba(56, 189, 248, 0.05);
+    }
+    .sec {
+      color: var(--muted);
+      font-size: 0.8rem;
+      display: block;
+      margin-top: 2px;
+    }
+    .note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      background: rgba(56, 189, 248, 0.08);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sorting Algorithms Performance</h1>
+    <p class="subtitle">เปรียบเทียบเวลาที่ใช้ในการเรียงข้อมูล — Log Scale</p>
+
+    <!-- Log Scale Line Chart -->
+    <div class="card">
+      <h2>📉 กราฟเส้น – เวลา vs ขนาดข้อมูล (Log Scale)</h2>
+      <div class="chart-wrap">
+        <canvas id="logChart"></canvas>
+      </div>
+      <p class="note">
+        ใช้สเกลลอการิทึมเพื่อให้เห็นความแตกต่างของทุกอัลกอริทึมได้ชัดเจน &nbsp;|&nbsp; แกน Y แสดงเป็นมิลลิวินาที (ms)
+      </p>
+    </div>
+
+    <!-- Data Table -->
+    <div class="card">
+      <h2>📋 ตารางข้อมูลดิบ</h2>
+      <div style="overflow-x: auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ขนาดข้อมูล (n)</th>
+              <th>Bubble Sort</th>
+              <th>Selection Sort</th>
+              <th>Insertion Sort</th>
+              <th>Quick Sort</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>500</td>
+              <td>2.8522 ms<span class="sec">0.002852 s</span></td>
+              <td>0.8601 ms<span class="sec">0.000860 s</span></td>
+              <td>1.0251 ms<span class="sec">0.001025 s</span></td>
+              <td>0.1417 ms<span class="sec">0.000142 s</span></td>
+            </tr>
+            <tr>
+              <td>1,000</td>
+              <td>2.0105 ms<span class="sec">0.002011 s</span></td>
+              <td>0.3035 ms<span class="sec">0.000304 s</span></td>
+              <td>1.0379 ms<span class="sec">0.001038 s</span></td>
+              <td>0.1064 ms<span class="sec">0.000106 s</span></td>
+            </tr>
+            <tr>
+              <td>10,000</td>
+              <td>87.1229 ms<span class="sec">0.087123 s</span></td>
+              <td>16.4025 ms<span class="sec">0.016403 s</span></td>
+              <td>14.7247 ms<span class="sec">0.014725 s</span></td>
+              <td>0.7627 ms<span class="sec">0.000763 s</span></td>
+            </tr>
+            <tr>
+              <td>50,000</td>
+              <td>2,726.7025 ms<span class="sec">2.726703 s</span></td>
+              <td>397.4127 ms<span class="sec">0.397413 s</span></td>
+              <td>370.3539 ms<span class="sec">0.370354 s</span></td>
+              <td>2.8637 ms<span class="sec">0.002864 s</span></td>
+            </tr>
+            <tr>
+              <td>100,000</td>
+              <td>11,155.2646 ms<span class="sec">11.155265 s</span></td>
+              <td>1,590.4126 ms<span class="sec">1.590413 s</span></td>
+              <td>424.4201 ms<span class="sec">0.424420 s</span></td>
+              <td>5.7320 ms<span class="sec">0.005732 s</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">
+        แต่ละช่องแสดงทั้งหน่วยมิลลิวินาที (ms) และวินาที (s)
+      </p>
+    </div>
+
+    <footer>
+      Lab.Sort_Data • Log Scale Chart
+    </footer>
+  </div>
+
+  <script>
+    const sizeLabels = ['500', '1,000', '10,000', '50,000', '100,000'];
+
+    const bubble    = [2.8522, 2.0105, 87.1229, 2726.7025, 11155.2646];
+    const selection = [0.8601, 0.3035, 16.4025, 397.4127, 1590.4126];
+    const insertion = [1.0251, 1.0379, 14.7247, 370.3539, 424.4201];
+    const quick     = [0.1417, 0.1064, 0.7627, 2.8637, 5.732];
+
+    new Chart(document.getElementById('logChart'), {
+      type: 'line',
+      data: {
+        labels: sizeLabels,
+        datasets: [
+          {
+            label: 'Bubble Sort',
+            data: bubble,
+            borderColor: '#f87171',
+            backgroundColor: 'rgba(248,113,113,0.15)',
+            borderWidth: 2.5,
+            tension: 0.25,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          },
+          {
+            label: 'Selection Sort',
+            data: selection,
+            borderColor: '#fbbf24',
+            backgroundColor: 'rgba(251,191,36,0.15)',
+            borderWidth: 2.5,
+            tension: 0.25,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          },
+          {
+            label: 'Insertion Sort',
+            data: insertion,
+            borderColor: '#34d399',
+            backgroundColor: 'rgba(52,211,153,0.15)',
+            borderWidth: 2.5,
+            tension: 0.25,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          },
+          {
+            label: 'Quick Sort',
+            data: quick,
+            borderColor: '#38bdf8',
+            backgroundColor: 'rgba(56,189,248,0.15)',
+            borderWidth: 2.5,
+            tension: 0.25,
+            pointRadius: 5,
+            pointHoverRadius: 7
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            labels: { color: '#e2e8f0', font: { size: 13 } }
+          },
+          tooltip: {
+            backgroundColor: '#1e293b',
+            titleColor: '#38bdf8',
+            bodyColor: '#e2e8f0',
+            borderColor: '#334155',
+            borderWidth: 1,
+            callbacks: {
+              label: function(ctx) {
+                const ms = ctx.parsed.y;
+                const sec = (ms / 1000).toFixed(6);
+                return ` ${ctx.dataset.label}: ${ms.toLocaleString()} ms  (${sec} s)`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { color: '#94a3b8' },
+            grid: { color: 'rgba(51,65,85,0.5)' },
+            title: { display: true, text: 'ขนาดข้อมูล (n)', color: '#94a3b8' }
+          },
+          y: {
+            type: 'logarithmic',
+            ticks: { color: '#94a3b8' },
+            grid: { color: 'rgba(51,65,85,0.5)' },
+            title: { display: true, text: 'เวลา (ms) – Log Scale', color: '#94a3b8' }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

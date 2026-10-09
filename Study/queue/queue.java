@@ -1,5 +1,5 @@
 
-public class queue {
+public class queue { //คิวแบบวน
 
     int q[] = new int[5];
     int f, r, count;

@@ -57,6 +57,18 @@ public class infix_to_postfix {
     }
 
     public String logic(String data) {
+
+
+      if (data == null || data.trim().isEmpty()) {
+        System.out.println("Error: Input is empty!");
+        return "";
+    }
+
+   
+   if (data.matches(".*[a-zA-Z\u0E00-\u0E7F].*")) {
+        System.out.println("Error: Input contains alphabets! Numbers and operators only.");
+        return "Error: Alphabets not allowed";
+    }
         
         System.out.println("----------------------------------------");
         System.out.format("%-8s | %-15s | %-15s%n", "I/p", "O/p", "Stack");
@@ -105,7 +117,7 @@ public class infix_to_postfix {
     }
 
     private String getStackString() {
-    if (isEmpty()) return "[ ]";
+    if (isEmpty()) return " ";
     
     StringBuilder sb = new StringBuilder();
     stack current = top;
@@ -113,7 +125,7 @@ public class infix_to_postfix {
         sb.insert(0, current.info); // เรียงข้อมูลจากล่างขึ้นบน
         current = current.next;
     }
-    return "[ " + sb.toString() + " ]";
+    return  sb.toString() ;
 }
 
     private void printRow(String input, String output) {
